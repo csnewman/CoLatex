@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
     $('#modal-signup-submit').click(function () {
+        $('#modal-signup-message').text('');
+
         $('#modal-signup-username').parent().removeClass('has-error');
         $('#modal-signup-username-message').text('');
 
@@ -52,7 +54,54 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+                if (data.success) {
+                    alert("Yeet");
+                } else {
+                    switch (data.error) {
+                        case 'internalError':
+                            $('#modal-signup-message').text('Internal error occurred, please try again later.');
+
+                            break;
+                        case 'usernameInUse':
+                            $('#modal-signup-username').parent().addClass('has-error');
+                            $('#modal-signup-username-message').text('Username already in use');
+
+                            break;
+                        case 'emailInUse':
+                            $('#modal-signup-email').parent().addClass('has-error');
+                            $('#modal-signup-email-message').text('Email address already in use');
+
+                            break;
+                        case 'invalidUsername':
+                            $('#modal-signup-username').parent().addClass('has-error');
+                            $('#modal-signup-username-message').text('Invalid username');
+
+                            break;
+                        case 'invalidPassword':
+                            $('#modal-signup-password').parent().addClass('has-error');
+                            $('#modal-signup-password-message').text('Invalid password');
+
+                            break;
+                        case 'invalidName':
+                            $('#modal-signup-name').parent().addClass('has-error');
+                            $('#modal-signup-name-message').text('Invalid name');
+
+                            break;
+                        case 'invalidEmail':
+                            $('#modal-signup-email').parent().addClass('has-error');
+                            $('#modal-signup-name-email').text('Invalid email');
+
+                            break;
+                        default:
+                            $('#modal-signup-message').text('Unspecified error occurred');
+
+                            break;
+                    }
+                }
+            },
+            error: function (data) {
+                $('#modal-signup-message').text('Today is not your lucky day, pal');
+                alert(data);
             }
         });
     });
@@ -75,6 +124,25 @@
             $('#modal-login-password-message').text('Password cannot be empty');
             return;
         }
+
+        $.ajax({
+            url: '/api/auth/login',
+            type: "POST",
+            data: JSON.stringify($('#form-login').serializeFormJSON()),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    alert("Yeet");
+                } else {
+                    $('#modal-login-message').text('Username or password incorrect');
+                }
+            },
+            error: function (data) {
+                $('#modal-login-message').text('Today is not your lucky day, pal');
+                alert(data);
+            }
+        });
     });
 });
 

@@ -32,6 +32,10 @@ body {
     width: 100%;
 }
 
+.error-message {
+    color: #a94442;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
