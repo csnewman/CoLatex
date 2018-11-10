@@ -76,6 +76,8 @@ namespace CoLatex
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
+            
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
