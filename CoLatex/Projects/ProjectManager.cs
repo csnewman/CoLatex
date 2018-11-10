@@ -68,7 +68,7 @@ namespace CoLatex.Projects
 
         public Task OnFileAdded(string project, string path)
         {
-            return _hubContext.Clients.Group(project).SendAsync("FileAdded", GetFileModel(GetFilePath(project, path)));
+            return _hubContext.Clients.Group(project).SendAsync("FileAdded", GetFileModel(path));
         }
     }
 }

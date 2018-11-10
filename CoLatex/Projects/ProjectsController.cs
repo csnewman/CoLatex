@@ -114,7 +114,7 @@ namespace CoLatex.Projects
             return new UploadResponseModel
             {
                 Success = true,
-                File = _projectManager.GetFileModel(_projectManager.GetFilePath(model.ProjectId, path))
+                File = _projectManager.GetFileModel(model.Path)
             };
         }
 
@@ -143,7 +143,7 @@ namespace CoLatex.Projects
             return new CreateResponseModel
             {
                 Success = true,
-                File = _projectManager.GetFileModel(_projectManager.GetFilePath(model.ProjectId, path))
+                File = _projectManager.GetFileModel(model.Path)
             };
         }
     }
