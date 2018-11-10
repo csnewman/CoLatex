@@ -1,0 +1,100 @@
+
+api/auth/login
+POST {
+	"username": "",
+	"password": ""
+}
+{
+	"success": true,
+	"token": "blah"
+}
+
+Token is a JWT encoded token, you can decode it in javascript to get both the username and the name of the user.
+
+Most requests from here on out need Authorization: Bearer $token_here as a header.
+
+api/projects/list
+GET
+{
+	"projects": [{
+		"id": project id
+		"name": project name
+		"owner": project owner
+		"collaborators": ["some username"]
+		"lastEdit": unix timestamp
+	}....]
+}
+
+api/projects/create
+POST {
+	"name": "project name"
+}
+{
+	"id": project id
+	"name": project name
+	"owner": project owner
+	"collaborators": ["some username"]
+	"lastEdit": unix timestamp
+}
+
+To edit a project, you need to open a signalr connect to
+api/projects/hub
+
+let connection = new signalR.HubConnectionBuilder()
+    .withUrl("/api/projects/hub", {
+        accessTokenFactory: () => JWT TOKEN
+    })
+    .build();
+SEE https://docs.microsoft.com/en-us/aspnet/core/signalr/javascript-client?view=aspnetcore-2.1
+
+CALL OpenProject(projectId) - Opens the project, server will caal the FileList method on client
+CALL OpenFile(path) - Opens a file, server will call the FileResource method on the client. If its a tex file, live editing will be started.
+
+Client side methods:
+FileList({
+	"files": [{
+		"path": ..
+		"isBinary": ..
+		"liveEditable": ..
+	}]....
+})
+
+FileResource({
+	"file": ...,
+	"token": ...
+})
+
+The file resource method, is called with a download token, valid for 12 hours. 
+
+GET api/projects/download-resource/{download token}, that will return the file. No auth needed, as the download token handles that. You will be able to use that as the src for an img tag to display image previews.
+
+
+POST api/products/upload-resource
+FormData
+	ProjectId
+	Path
+	File
+{
+	"success": true,
+	"file": {
+		"path": ..
+		"isBinary": ..
+		"liveEditable": ..
+	}
+}
+Will need to use ajax FormData for that request
+
+
+POST api/products/create-resource (Creates an empty file)
+{
+	"projectId": ..
+	"path": ..
+}
+{
+	"success": true,
+	"file": {
+		"path": ..
+		"isBinary": ..
+		"liveEditable": ..
+	}
+}
