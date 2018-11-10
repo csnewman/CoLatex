@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -63,6 +64,11 @@ namespace CoLatex.Projects
         public string GetResourcePath(string token)
         {
             return _fileAccessCache.Get(token) as string;
+        }
+
+        public Task OnFileAdded(string project, string path)
+        {
+            return _hubContext.Clients.Group(project).SendAsync("FileAdded", GetFileModel(GetFilePath(project, path)));
         }
     }
 }

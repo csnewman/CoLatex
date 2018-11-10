@@ -108,6 +108,8 @@ namespace CoLatex.Projects
             {
                 await model.File.CopyToAsync(fileStream);
             }
+            
+            await _projectManager.OnFileAdded(model.ProjectId, model.Path);
 
             return new UploadResponseModel
             {
