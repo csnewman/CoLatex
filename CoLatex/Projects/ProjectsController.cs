@@ -86,7 +86,7 @@ namespace CoLatex.Projects
 
 
         // Use FormData in ajax to encode upload model, not json
-        [HttpPost("upload")]
+        [HttpPost("upload-resource")]
         public async Task<UploadResponseModel> UploadResourceAsync([FromBody] UploadModel model)
         {
             ClaimsPrincipal principal = HttpContext.User;
