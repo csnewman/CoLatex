@@ -32,6 +32,8 @@ namespace CoLatex
             });
 
 
+            services.AddSingleton(new DatabaseContext());
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
