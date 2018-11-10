@@ -36,6 +36,26 @@
             return;
         }
     });
+
+    $('#modal-login-submit').click(function () {
+        $('#modal-login-username').parent().removeClass('has-error');
+        $('#modal-login-username-message').text('');
+
+        $('#modal-login-password').parent().removeClass('has-error');
+        $('#modal-login-password-message').text('');
+
+        if ($('#modal-login-username').val() === '') {
+            $('#modal-login-username').parent().addClass('has-error');
+            $('#modal-login-username-message').text('Username cannot be empty');
+            return;
+        }
+
+        if ($('#modal-login-password').val() === '') {
+            $('#modal-login-password').parent().addClass('has-error');
+            $('#modal-login-password-message').text('Password cannot be empty');
+            return;
+        }
+    });
 });
 
 function isValidEmailAddress(emailAddress) {
