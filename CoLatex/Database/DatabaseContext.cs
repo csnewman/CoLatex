@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace CoLatex
+namespace CoLatex.Database
 {
     public class DatabaseContext
     {
