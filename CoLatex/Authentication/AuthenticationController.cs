@@ -1,8 +1,12 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoLatex.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CoLatex.Authentication
 {
@@ -10,6 +14,7 @@ namespace CoLatex.Authentication
     [Route("api/auth")]
     public class AuthenticationController : Controller
     {
+        public static readonly string JwtSecret = "ThisIsSomeSpecialSecret";
         private static readonly Regex UsernameRegex = new Regex(@"^(?=[a-zA-Z])[-\w.]{0,23}([a-zA-Z\d]|(?<![-.])_)$");
         private UserRepository _userRepository;
 
@@ -17,6 +22,42 @@ namespace CoLatex.Authentication
         {
             _userRepository = userRepository;
         }
+
+        [HttpPost("login")]
+        public async Task<LoginResponseModel> LoginAsync([FromBody] LoginModel model)
+        {
+            UserDbModel dbModel = await _userRepository.GetUserByUsername(model.Username);
+
+            if (dbModel == null || !BCrypt.Net.BCrypt.Verify(model.Password, dbModel.Password))
+            {
+                return new LoginResponseModel
+                {
+                    Success = false
+                };
+            }
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(JwtSecret);
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("username", model.Username),
+                    new Claim("name", dbModel.Name)
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return new LoginResponseModel
+            {
+                Success = true,
+                Token = tokenHandler.WriteToken(token)
+            };
+        }
+
 
         [HttpPost("register")]
         public async Task<RegisterResponseModel> RegisterAsync([FromBody] RegisterModel model)
