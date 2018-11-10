@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoLatex.Authentication;
 using CoLatex.Database;
+using CoLatex.Projects;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,9 @@ namespace CoLatex
             services.AddSingleton(new DatabaseContext());
             services.AddSingleton<UserRepository>();
             services.AddSingleton<ProjectRepository>();
+            services.AddSingleton<ProjectManager>();
+
+            services.AddSignalR();
 
             // configure jwt authentication
             byte[] key = Encoding.ASCII.GetBytes(AuthenticationController.JwtSecret);
@@ -58,6 +62,28 @@ namespace CoLatex
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidateIssuer = false,
                         ValidateAudience = false
+                    };
+                    // We have to hook the OnMessageReceived event in order to
+                    // allow the JWT authentication handler to read the access
+                    // token from the query string when a WebSocket or 
+                    // Server-Sent Events request comes in.
+                    x.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            // If the request is for our hub...
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("/api/projects/hub")))
+                            {
+                                // Read the token out of the query string
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
@@ -81,6 +107,8 @@ namespace CoLatex
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseSignalR(route => { route.MapHub<ProjectHub>("/api/projects/hub"); });
 
             app.UseMvc(routes =>
             {

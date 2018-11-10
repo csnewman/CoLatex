@@ -22,6 +22,12 @@ namespace CoLatex.Database
                 project.Collaborators != null && project.Collaborators.Contains(username)).ToListAsync();
         }
 
+        public Task<ProjectDbModel> GetProject(string projectId)
+        {
+            return _databaseContext.Projects.Find(project => string.Equals(project.Id, projectId))
+                .FirstOrDefaultAsync();
+        }
+
         public Task AddProject(ProjectDbModel model)
         {
             return _databaseContext.Projects.InsertOneAsync(model);
