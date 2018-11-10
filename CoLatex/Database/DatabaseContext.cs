@@ -12,12 +12,8 @@ namespace CoLatex.Database
             _database = client.GetDatabase("guh");
         }
 
-        public IMongoCollection<UserDbModel> Users
-        {
-            get
-            {
-                return _database.GetCollection<UserDbModel>("users");
-            }
-        }
+        public IMongoCollection<UserDbModel> Users => _database.GetCollection<UserDbModel>("users");
+
+        public IMongoCollection<ProjectDbModel> Projects => _database.GetCollection<ProjectDbModel>("projects");
     }
 }

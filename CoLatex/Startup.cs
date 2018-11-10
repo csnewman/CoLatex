@@ -39,6 +39,7 @@ namespace CoLatex
 
             services.AddSingleton(new DatabaseContext());
             services.AddSingleton<UserRepository>();
+            services.AddSingleton<ProjectRepository>();
 
             // configure jwt authentication
             byte[] key = Encoding.ASCII.GetBytes(AuthenticationController.JwtSecret);
@@ -77,7 +78,7 @@ namespace CoLatex
             }
 
             app.UseAuthentication();
-            
+
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
