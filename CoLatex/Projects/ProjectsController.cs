@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -40,6 +41,34 @@ namespace CoLatex.Projects
                     Owner = model.Owner,
                     Collaborators = model.Collaborators
                 }).ToList()
+            };
+        }
+
+        [HttpPost("create")]
+        public async Task<ProjectResponseModel> CreateProject([FromBody] CreateProjectModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            string id = Guid.NewGuid().ToString();
+
+            ProjectDbModel dbModel = new ProjectDbModel
+            {
+                Id = id,
+                Collaborators = new List<string>(),
+                LastEdit = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                Name = model.Name,
+                Owner = username
+            };
+            await _projectRepository.AddProject(dbModel);
+
+            return new ProjectResponseModel
+            {
+                Id = id,
+                Name = model.Name,
+                Collaborators = new List<string>(),
+                LastEdit = dbModel.LastEdit,
+                Owner = username
             };
         }
     }
