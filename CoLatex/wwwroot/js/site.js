@@ -3,6 +3,9 @@
         $('#modal-signup-username').parent().removeClass('has-error');
         $('#modal-signup-username-message').text('');
 
+        $('#modal-signup-name').parent().removeClass('has-error');
+        $('#modal-signup-name-message').text('');
+
         $('#modal-signup-password').parent().removeClass('has-error');
         $('#modal-signup-password-message').text('');
 
@@ -15,6 +18,12 @@
         if ($('#modal-signup-username').val() === '') {
             $('#modal-signup-username').parent().addClass('has-error');
             $('#modal-signup-username-message').text('Username cannot be empty');
+            return;
+        }
+
+        if ($('#modal-signup-name').val() === '') {
+            $('#modal-signup-name').parent().addClass('has-error');
+            $('#modal-signup-name-message').text('Name cannot be empty');
             return;
         }
 
@@ -36,8 +45,15 @@
             return;
         }
 
-        $.post('/api/auth/register', getFormData($('#form-signup')), function (data) {
-            console.log(data);
+        $.ajax({
+            url: '/api/auth/register',
+            type: "POST",
+            data: JSON.stringify($('#form-signup').serializeFormJSON()),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            }
         });
     });
 
@@ -77,3 +93,22 @@ function getFormData($form) {
 
     return indexed_array;
 }
+
+(function ($) {
+    $.fn.serializeFormJSON = function () {
+
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+})(jQuery);
