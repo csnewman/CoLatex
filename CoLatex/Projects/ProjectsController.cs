@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using CoLatex.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CoLatex.Projects
 {
@@ -17,10 +19,12 @@ namespace CoLatex.Projects
     public class ProjectsController : Controller
     {
         private ProjectRepository _projectRepository;
+        private ProjectManager _projectManager;
 
-        public ProjectsController(ProjectRepository projectRepository)
+        public ProjectsController(ProjectRepository projectRepository, ProjectManager projectManager)
         {
             _projectRepository = projectRepository;
+            _projectManager = projectManager;
         }
 
         [HttpGet("list")]
@@ -70,6 +74,14 @@ namespace CoLatex.Projects
                 LastEdit = dbModel.LastEdit,
                 Owner = username
             };
+        }
+
+        [HttpGet("download/{token}")]
+        [AllowAnonymous]
+        public async Task<FileResult> DownloadResourceAsync(string token)
+        {
+            return new PhysicalFileResult(Path.GetFullPath(_projectManager.GetResourcePath(token)),
+                "application/octet-stream");
         }
     }
 }
