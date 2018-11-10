@@ -22,5 +22,10 @@ namespace CoLatex.Database
         {
             return _databaseContext.Users.Find(user => string.Equals(user.Email, email)).FirstOrDefaultAsync();
         }
+
+        public Task AddUser(UserDbModel model)
+        {
+            return _databaseContext.Users.InsertOneAsync(model);
+        }
     }
 }
