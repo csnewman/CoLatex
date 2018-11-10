@@ -71,7 +71,11 @@ namespace CoLatex.Projects
             Context.Items.Add("file", path);
             await Groups.AddToGroupAsync(Context.ConnectionId, $"{projectId}@{path}");
 
-            // TODO: Send file resource data
+            await Clients.Caller.SendAsync("FileResource", new FileResourceModel
+            {
+                File = path,
+                Token = _projectManager.GenerateFileAccessToken(projectId, path)
+            });
         }
     }
 }
