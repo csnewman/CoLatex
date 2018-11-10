@@ -118,7 +118,7 @@ namespace CoLatex.Projects
             };
         }
 
-        [HttpPost("create")]
+        [HttpPost("create-resource")]
         public async Task<CreateResponseModel> CreateResourceAsync(CreateModel model)
         {
             ClaimsPrincipal principal = HttpContext.User;
