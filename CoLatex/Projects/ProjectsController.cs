@@ -76,7 +76,7 @@ namespace CoLatex.Projects
             };
         }
 
-        [HttpGet("download/{token}")]
+        [HttpGet("download-resource/{token}")]
         [AllowAnonymous]
         public async Task<FileResult> DownloadResourceAsync(string token)
         {
