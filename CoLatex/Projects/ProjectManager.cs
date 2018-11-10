@@ -30,12 +30,12 @@ namespace CoLatex.Projects
             };
         }
 
-        private string GetProjectDirectory(string project)
+        public string GetProjectDirectory(string project)
         {
             return Path.Combine(ProjectHomeDirectory, project);
         }
 
-        private string GetFilePath(string project, string file)
+        public string GetFilePath(string project, string file)
         {
             return Path.Combine(GetProjectDirectory(project), file);
         }

@@ -83,5 +83,36 @@ namespace CoLatex.Projects
             return new PhysicalFileResult(Path.GetFullPath(_projectManager.GetResourcePath(token)),
                 "application/octet-stream");
         }
+
+
+        // Use FormData in ajax to encode upload model, not json
+        [HttpPost("upload")]
+        public async Task<UploadResponseModel> UploadResourceAsync(UploadModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new UploadResponseModel
+                {
+                    Success = false
+                };
+            }
+
+            string path = Path.GetFullPath(_projectManager.GetFilePath(model.ProjectId, model.Path));
+            using (FileStream fileStream = new FileStream(path, FileMode.Create))
+            {
+                await model.File.CopyToAsync(fileStream);
+            }
+
+            return new UploadResponseModel
+            {
+                Success = true
+            };
+        }
     }
 }
