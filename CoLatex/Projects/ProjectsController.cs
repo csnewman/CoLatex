@@ -108,12 +108,42 @@ namespace CoLatex.Projects
             {
                 await model.File.CopyToAsync(fileStream);
             }
-            
+
             await _projectManager.OnFileAdded(model.ProjectId, model.Path);
 
             return new UploadResponseModel
             {
-                Success = true
+                Success = true,
+                File = _projectManager.GetFileModel(_projectManager.GetFilePath(model.ProjectId, path))
+            };
+        }
+
+        [HttpPost("create-resource")]
+        public async Task<CreateResponseModel> CreateResourceAsync(CreateModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new CreateResponseModel
+                {
+                    Success = false
+                };
+            }
+
+            string path = Path.GetFullPath(_projectManager.GetFilePath(model.ProjectId, model.Path));
+            new FileStream(path, FileMode.Create).Dispose();
+
+            await _projectManager.OnFileAdded(model.ProjectId, model.Path);
+
+            return new CreateResponseModel
+            {
+                Success = true,
+                File = _projectManager.GetFileModel(_projectManager.GetFilePath(model.ProjectId, path))
             };
         }
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CoLatex.Projects
 {
-    public class UploadResponseModel
+    public class CreateResponseModel
     {
         public bool Success { get; set; }
         public FileModel File { get; set; }
