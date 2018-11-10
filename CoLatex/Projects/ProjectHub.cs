@@ -38,5 +38,40 @@ namespace CoLatex.Projects
 
             await Clients.Caller.SendAsync("FileList", _projectManager.GetFileList(projectId));
         }
+
+        private async Task<string> GetProjectIdAsync()
+        {
+            if (!Context.Items.ContainsKey("project"))
+                throw new InvalidOperationException("No project is open");
+
+            string projectId = Context.Items["project"] as string;
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(projectId);
+
+            string username = Context.User.FindFirstValue("username");
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                throw new InvalidOperationException("Not allowed access to this project");
+            }
+
+            return projectId;
+        }
+
+        public async Task OpenFile(string path)
+        {
+            string projectId = await GetProjectIdAsync();
+
+            if (Context.Items.ContainsKey("file"))
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{projectId}@{Context.Items["file"]}");
+            }
+
+            Context.Items.Add("file", path);
+            await Groups.AddToGroupAsync(Context.ConnectionId, $"{projectId}@{path}");
+
+            // TODO: Send file resource data
+        }
     }
 }
