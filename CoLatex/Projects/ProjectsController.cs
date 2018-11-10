@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -108,12 +108,13 @@ namespace CoLatex.Projects
             {
                 await model.File.CopyToAsync(fileStream);
             }
-            
+
             await _projectManager.OnFileAdded(model.ProjectId, model.Path);
 
             return new UploadResponseModel
             {
-                Success = true
+                Success = true,
+                File = _projectManager.GetFileModel(_projectManager.GetFilePath(model.ProjectId, path))
             };
         }
     }

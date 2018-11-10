@@ -8,5 +8,6 @@ namespace CoLatex.Projects
     public class UploadResponseModel
     {
         public bool Success { get; set; }
+        public FileModel File { get; set; }
     }
 }

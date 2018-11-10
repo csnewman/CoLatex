@@ -41,7 +41,7 @@ namespace CoLatex.Projects
             return Path.Combine(GetProjectDirectory(project), file);
         }
 
-        private FileModel GetFileModel(string path)
+        public FileModel GetFileModel(string path)
         {
             return new FileModel
             {
