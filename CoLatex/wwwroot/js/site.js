@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(document).ready(function () {
+    $('#modal-signup-submit').click(function () {
+        $('#modal-signup-password-confirm-message').text('');
+        if ($('#modal-signup-password-confirm').val() !== $('#modal-singup-password').val()) {
+            $('#modal-signup-password-confirm').parent().addClass('has-error');
+            $('#modal-signup-password-confirm-message').text('Password and confirm password do not match');
+            return;
+        }
+    });
+});
