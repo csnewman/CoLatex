@@ -87,7 +87,7 @@ namespace CoLatex.Projects
 
         // Use FormData in ajax to encode upload model, not json
         [HttpPost("upload")]
-        public async Task<UploadResponseModel> UploadResourceAsync(UploadModel model)
+        public async Task<UploadResponseModel> UploadResourceAsync([FromBody] UploadModel model)
         {
             ClaimsPrincipal principal = HttpContext.User;
             string username = principal.FindFirstValue("username");
@@ -119,7 +119,7 @@ namespace CoLatex.Projects
         }
 
         [HttpPost("create-resource")]
-        public async Task<CreateResponseModel> CreateResourceAsync(CreateModel model)
+        public async Task<CreateResponseModel> CreateResourceAsync([FromBody] CreateModel model)
         {
             ClaimsPrincipal principal = HttpContext.User;
             string username = principal.FindFirstValue("username");
