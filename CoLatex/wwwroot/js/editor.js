@@ -16,7 +16,6 @@
         connection.invoke("OpenProject", projectId);
 
         connection.on("FileList", (data) => {
-            console.log(data);
             for (var index in data.files) {
                 var file = data.files[index];
                 $('#file-list').append('<li data-binary="' + file.isBinary + '" data-editable="' + file.liveEditable + '">' + file.path + '</li>');
@@ -26,7 +25,25 @@
                 $(this).addClass('selected');
                 $('#editor-message').css('display', 'none');
                 $('#ace-container').css('display', 'block');
+                editor.setValue('');
+
+                connection.invoke("OpenFile", $(this).text());
             });
+        });
+    });
+
+    connection.on('FileResource', (data) => {
+        $.ajax({
+            url: 'api/projects/download-resource/' + data.token,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            success: function (data2) {
+                editor.setValue(data2);
+            },
+            error: function (data2) {
+                alert('Could not retrieve file');
+                console.log(data2);
+            }
         });
     });
 
