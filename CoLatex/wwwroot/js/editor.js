@@ -78,6 +78,7 @@
     $('#modal-project').on('show.bs.modal', function (event) {
         $('#modal-project-message').text('');
         $('#modal-project-collaborator').val('');
+        $('#modal-project-projectid').val(projectId);
     });
 
     $('#modal-project-collaborators-add-submit').click(function (e) {
@@ -156,9 +157,15 @@
         console.log(data);
         switch (data.state) {
             case 0: //not build
+                break;
             case 1: // building
-            case 2: built
-            case 3: build failed
+                break;
+            case 2: //built
+                break;
+            case 3: //build failed
+                break;
+            default: //WHY????
+                break;
 
         }
     });
