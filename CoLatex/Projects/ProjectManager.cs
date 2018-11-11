@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,12 +13,14 @@ namespace CoLatex.Projects
         private static string ProjectHomeDirectory = "./projects/";
         private IHubContext<ProjectHub> _hubContext;
         private MemoryCache _fileAccessCache;
+        private MemoryCache _buildCache;
 
 
         public ProjectManager(IHubContext<ProjectHub> hubContext)
         {
             _hubContext = hubContext;
             _fileAccessCache = new MemoryCache(new MemoryCacheOptions());
+            _buildCache = new MemoryCache(new MemoryCacheOptions());
         }
 
         public FileListModel GetFileList(string project)
@@ -69,6 +72,28 @@ namespace CoLatex.Projects
         public Task OnFileAdded(string project, string path)
         {
             return _hubContext.Clients.Group(project).SendAsync("FileAdded", GetFileModel(path));
+        }
+
+        public async Task<BuildInfo> GetBuildInfoAsync(string projectId)
+        {
+            if (_buildCache.TryGetValue(projectId, out BuildInfo info))
+                return info;
+            BuildInfo newInfo = new BuildInfo(this, projectId);
+            _fileAccessCache.Set(projectId, newInfo, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddHours(12))
+            });
+            return newInfo;
+        }
+
+        public void OnBuilt(BuildInfo info)
+        {
+            _hubContext.Clients.Group(info.ProjectId).SendAsync("ProjectBuild", new BuildInfoModel
+            {
+                ProjectId = info.ProjectId,
+                LastLog = info.LastLog,
+                State = info.State
+            }).Wait();
         }
     }
 }
