@@ -52,6 +52,10 @@ body {
     margin-top: 6px;
 }
 
+.table-hover {
+    cursor: pointer;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
