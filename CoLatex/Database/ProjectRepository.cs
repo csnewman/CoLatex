@@ -28,7 +28,18 @@ namespace CoLatex.Database
                 .FirstOrDefaultAsync();
         }
 
+        public Task AddProject(ProjectDbModel model)
+        {
+            return _databaseContext.Projects.InsertOneAsync(model);
+        }
+
         public Task UpdateProject(ProjectDbModel model)
+        {
+            return _databaseContext.Projects.ReplaceOneAsync(Builders<ProjectDbModel>.Filter.Eq(s => s.Id, model.Id),
+                model);
+        }
+
+        public Task DeleteProject(ProjectDbModel model)
         {
             return _databaseContext.Projects.ReplaceOneAsync(Builders<ProjectDbModel>.Filter.Eq(s => s.Id, model.Id),
                 model);
