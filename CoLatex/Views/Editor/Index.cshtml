@@ -14,6 +14,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/css/editor.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -60,8 +61,19 @@
 
     <partial name="_LoginModalsPartial" />
 
-    <div class="container-fluid body-content">
-        <h2>Editor</h2>
+    <div id="left-col">
+        <h2>Files</h2>
+    </div>
+    <div id="middle-col">
+        <h2>Ace</h2>
+    </div>
+    <div id="right-col">
+        <div id="pdf-col">
+            <h2>PDF</h2>
+        </div>
+        <div id="output-col">
+            <h2>Output</h2>
+        </div>
     </div>
 
     <environment include="Development">
