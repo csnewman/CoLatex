@@ -77,6 +77,7 @@ namespace CoLatex.Projects
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{projectId}@{Context.Items["file"]}");
             }
 
+            Context.Items.Remove("file");
             Context.Items.Add("file", path);
             await Groups.AddToGroupAsync(Context.ConnectionId, $"{projectId}@{path}");
 
