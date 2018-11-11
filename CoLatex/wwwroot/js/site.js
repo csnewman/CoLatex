@@ -1,4 +1,13 @@
 ﻿$(document).ready(function () {
+    var jwtToken = window.localStorage.getItem('token');
+
+    if (jwtToken == null) {
+        $('#nav-login').css('display', 'block');
+        $('#nav-signup').css('display', 'block');
+    } else {
+        $('#nav-user').css('display', 'block');
+    }
+
     $('#modal-signup-submit').click(function () {
         $('#modal-signup-message').text('');
 

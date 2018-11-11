@@ -56,6 +56,10 @@ body {
     cursor: pointer;
 }
 
+#nav-login, #nav-signup, #nav-user {
+    display: none;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

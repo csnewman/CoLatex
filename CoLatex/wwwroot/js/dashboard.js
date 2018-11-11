@@ -121,7 +121,7 @@
                 window.location = '/editor?project=' + data.id;
             },
             error: function (data) {
-                $('#modal-rename-message').text('Today is not your lucky day, pal');
+                $('#modal-new-message').text('Today is not your lucky day, pal');
                 console.log(data);
             },
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
