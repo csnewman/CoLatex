@@ -118,7 +118,21 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                window.location = '/editor?project=' + data.id;
+                $.ajax({
+                    url: '/api/projects/create-resource',
+                    type: "POST",
+                    data: '{"projectId": "' + data.id + '", path: "main.tex"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data2) {
+                        window.location = '/editor?project=' + data.id;
+                    },
+                    error: function (data2) {
+                        $('#modal-new-message').text('Today is not your lucky day, pal');
+                        console.log(data);
+                    },
+                    beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
+                });
             },
             error: function (data) {
                 $('#modal-new-message').text('Today is not your lucky day, pal');

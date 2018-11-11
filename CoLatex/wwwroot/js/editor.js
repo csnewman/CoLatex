@@ -17,6 +17,15 @@
 
         connection.on("FileList", (data) => {
             console.log(data);
+            for (var index in data.files) {
+                var file = data.files[index];
+                $('#file-list').append('<li data-binary="' + file.isBinary + '" data-editable="' + file.liveEditable + '">' + file.path + '</li>');
+            }
+            $('#file-list li').click(function () {
+                $('#file-list li').removeClass('selected');
+                $(this).addClass('selected');
+                $('#editor-message').css('display', 'none');
+            });
         });
     });
 
@@ -46,10 +55,6 @@
             },
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
         });
-    }
-
-    function loadFiles() {
-
     }
 
     $('#modal-project').on('show.bs.modal', function (event) {
