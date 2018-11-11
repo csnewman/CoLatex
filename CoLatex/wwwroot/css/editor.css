@@ -75,9 +75,13 @@
 #pdf-header {
     background-color: #eee;
     border-bottom: 1px solid #ccc;
-    padding: 4px 8px;
     font-size: 20px;
 }
+
+    #pdf-header span {
+        padding: 4px 8px;
+        display: inline-block;
+    }
 
 #output-header {
     background-color: #eee;
@@ -120,3 +124,23 @@
     top: 87px;
     bottom: 0;
 }
+
+.action-button {
+    float: right;
+    border-style: none;
+    height: 36px;
+    width: 36px;
+    background-color: inherit;
+}
+
+.action-button:hover {
+    background-color: #e5e5e5;
+}
+
+    .action-button:active {
+        background-color: #c5c5c5;
+    }
+
+    .action-button:focus {
+        outline:0;
+    }

@@ -133,4 +133,33 @@
 
         e.stopPropagation();
     });
+
+    $('#btn-build').click(function () {
+        $.ajax({
+            url: '/api/projects/build',
+            type: "POST",
+            data: '{"projectId":"' + projectId + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+            },
+            error: function (data) {
+                $('#modal-project-message').text('Today is not your lucky day, pal');
+                console.log(data);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
+        });
+    });
+
+    connection.on('ProjectBuild', (data) => {
+        console.log(data);
+        switch (data.state) {
+            case 0: //not build
+            case 1: // building
+            case 2: built
+            case 3: build failed
+
+        }
+    });
 });
