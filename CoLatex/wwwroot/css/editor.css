@@ -160,4 +160,6 @@
     top: 87px;
     bottom: 250px;
     width: 41.66666667%;
+    border-style: none;
+    background-color: inherit;
 }
