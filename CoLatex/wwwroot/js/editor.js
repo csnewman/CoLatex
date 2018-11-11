@@ -3,7 +3,7 @@
     const projectId = urlParams.get('project');
 
     var project;
-    
+
     var jwtToken = window.localStorage.getItem('token');
 
     let connection = new signalR.HubConnectionBuilder()
@@ -33,6 +33,7 @@
     });
 
     connection.on('FileResource', (data) => {
+        path = data.file;
         $.ajax({
             url: 'api/projects/download-resource/' + data.token,
             type: "GET",
@@ -152,6 +153,29 @@
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
         });
     });
+
+    editor.on('change', function () {
+        var data = { 'File': editor.getValue(),
+                'ProjectId': projectId,
+        'Path': path};
+
+        $.ajax({
+            url: '/api/projects/upload-resource',
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log("Updated");
+            },
+            error: function (data) {
+                $('#modal-project-message').text('Today is not your lucky day, pal');
+                console.log(data);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
+        });
+    });
+
+    var path;
 
     connection.on('ProjectBuild', (data) => {
         console.log(data);
