@@ -155,14 +155,19 @@
 
     connection.on('ProjectBuild', (data) => {
         console.log(data);
+        $('#output').val(data.lastLog);
+        $('#output').css('color', 'black');
         switch (data.state) {
             case 0: //not build
                 break;
             case 1: // building
                 break;
             case 2: //built
+                var token = data.pdfResourceToken;
+                $('#pdf').attr('src', '/api/projects/download-resource/' + token);
                 break;
             case 3: //build failed
+                $('#output').css('color', 'red');
                 break;
             default: //WHY????
                 break;

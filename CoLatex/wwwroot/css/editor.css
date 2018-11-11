@@ -144,3 +144,20 @@
     .action-button:focus {
         outline:0;
     }
+
+#output {
+    position: fixed;
+    height: 212px;
+    bottom: 0;
+    width: 41.66666667%;
+    border-style: none;
+    background-color: #fdfdfd;
+    font-family: monospace;
+}
+
+#pdf {
+    position: fixed;
+    top: 87px;
+    bottom: 250px;
+    width: 41.66666667%;
+}
