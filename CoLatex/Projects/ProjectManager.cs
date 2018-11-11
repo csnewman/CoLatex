@@ -11,6 +11,7 @@ namespace CoLatex.Projects
     public class ProjectManager
     {
         private static string ProjectHomeDirectory = "./projects/";
+        private static string BuildHomeDirectory = "./builds/";
         private IHubContext<ProjectHub> _hubContext;
         private MemoryCache _fileAccessCache;
         private MemoryCache _buildCache;
@@ -39,9 +40,19 @@ namespace CoLatex.Projects
             return Path.Combine(ProjectHomeDirectory, project);
         }
 
+        public string GetBuildDirectory(string project)
+        {
+            return Path.Combine(BuildHomeDirectory, project);
+        }
+
         public string GetFilePath(string project, string file)
         {
             return Path.Combine(GetProjectDirectory(project), file);
+        }
+
+        public string GetBuildFilePath(string project, string file)
+        {
+            return Path.Combine(GetBuildDirectory(project), file);
         }
 
         public FileModel GetFileModel(string path)
@@ -88,11 +99,23 @@ namespace CoLatex.Projects
 
         public void OnBuilt(BuildInfo info)
         {
+            string pdftoken = null;
+
+            if (info.State == BuildInfo.BuildState.Built)
+            {
+                pdftoken = Guid.NewGuid().ToString();
+                _fileAccessCache.Set(pdftoken, GetBuildFilePath(info.ProjectId, "main.pdf"), new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddHours(12))
+                });
+            }
+
             _hubContext.Clients.Group(info.ProjectId).SendAsync("ProjectBuild", new BuildInfoModel
             {
                 ProjectId = info.ProjectId,
                 LastLog = info.LastLog,
-                State = info.State
+                State = info.State,
+                PdfResourceToken = pdftoken
             }).Wait();
         }
     }

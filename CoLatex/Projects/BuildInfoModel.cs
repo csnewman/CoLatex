@@ -7,5 +7,6 @@
         public BuildInfo.BuildState State { get; set; }
 
         public string LastLog { get; set; }
+        public string PdfResourceToken { get; set; }
     }
 }
