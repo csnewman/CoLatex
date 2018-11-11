@@ -18,6 +18,14 @@ namespace CoLatex.Projects
             _projectManager = projectManager;
         }
 
+        public override async Task OnConnectedAsync()
+        {
+
+            await base.OnConnectedAsync();
+
+            await Clients.Caller.SendAsync("Connected");
+        }
+
         public async Task OpenProject(string projectId)
         {
             if (Context.Items.ContainsKey("project"))
