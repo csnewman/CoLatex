@@ -230,5 +230,30 @@ namespace CoLatex.Projects
                 File = _projectManager.GetFileModel(model.Path)
             };
         }
+
+        [HttpPost("build")]
+        public async Task<BuildProjectResponseModel> BuildProject([FromBody] BuildProjectModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new BuildProjectResponseModel
+                {
+                    Success = false
+                };
+            }
+
+            (await _projectManager.GetBuildInfoAsync(model.ProjectId)).PerformBuild();
+
+            return new BuildProjectResponseModel
+            {
+                Success = true
+            };
+        }
     }
 }
