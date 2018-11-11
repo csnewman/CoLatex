@@ -67,8 +67,26 @@
             dataType: "json",
             success: function (data) {
                 if (data.success) {
-                    alert('yeet');
-                    //window.location = '/dashboard';
+                    $.ajax({
+                        url: '/api/auth/login',
+                        type: "POST",
+                        data: JSON.stringify($('#form-signup').serializeFormJSON()),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success) {
+                                window.localStorage.setItem('username', $('#modal-signup-username').val());
+                                window.localStorage.setItem('token', data.token);
+                                window.location = '/dashboard';
+                            } else {
+                                $('#modal-signup-message').text('Error occurred whilst logging in');
+                            }
+                        },
+                        error: function (data) {
+                            $('#modal-signup-message').text('Error occurred whilst logging in');
+                            console.log(data);
+                        }
+                    });
                 } else {
                     switch (data.error) {
                         case 'internalError':
