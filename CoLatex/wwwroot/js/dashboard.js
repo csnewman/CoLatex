@@ -10,6 +10,7 @@
                 var date = new Date(project.lastEdit * 1000);
 
                 $('#tbl-projects-body').append('<tr><td>' + project.name + '</td><td>' + timeSince(date) + '</td><td>' + project.owner + '</td><td>'
+                    + '<a class="btn btn-primary btn-xs" href="javascript:void(0)" data-toggle="modal" data-target="#VisitorDelete" title="Rename"><i class="glyphicon glyphicon-pencil"></i></a> '
                     + '<a class="btn btn-danger btn-xs" href="javascript:void(0)" data-toggle="modal" data-target="#VisitorDelete" title="Remove"><i class="glyphicon glyphicon-trash"></i></a>'
                     +'</td></tr>');
             }
