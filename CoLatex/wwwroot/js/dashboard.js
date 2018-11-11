@@ -144,8 +144,14 @@
                         + '</td></tr>');
                 }
 
-                $('#tbl-projects-body').children().click(function () {
-                    window.location = '/editor?project=' + $(this).data('project');
+                $('#tbl-projects-body').children().click(function (e) {
+                    if (!$(e.target).is('a') && !$(e.target).is('i')) {
+                        window.location = '/editor?project=' + $(this).data('project');
+                    }
+                });
+
+                $('#tbl-projects-body').children().children().click(function (e) {
+                    //e.preventDefault();
                 });
             },
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
