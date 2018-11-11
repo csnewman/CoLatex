@@ -134,6 +134,8 @@
             dataType: "json",
             success: function (data) {
                 if (data.success) {
+                    window.localStorage.setItem('username', $('#modal-login-username').val());
+                    window.localStorage.setItem('token', data.token);
                     window.location = '/dashboard';
                 } else {
                     $('#modal-login-message').text('Username or password incorrect');

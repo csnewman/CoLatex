@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var jwtToken = "hi";
+    var jwtToken = window.localStorage.getItem('token');
     $.ajax({
         url: "/api/projects/list",
         dataType: 'json',
