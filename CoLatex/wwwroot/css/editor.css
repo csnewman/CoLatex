@@ -5,6 +5,7 @@
     width: 16.66666667%;
     top: 50px;
     bottom: 0;
+    border-right: 1px solid #ccc;
 }
 
 #middle-col {
@@ -14,11 +15,10 @@
     width: 41.66666667%;
     top: 50px;
     bottom: 0;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
 }
 
 #right-col {
+    border-left: 1px solid #ccc;
     background-color: white;
     position: fixed;
     left: 58.3333334%;
@@ -103,3 +103,20 @@
     #file-list li.selected {
         background-color: #c5c5c5;
     }
+
+#ace-container {
+    position: fixed;
+    display: none;
+    left: 16.66666667%;
+    width: 41.66666667%;
+    top: 87px;
+    bottom: 0;
+}
+
+#editor {
+    position: fixed;
+    left: 16.67%;
+    width: 41.66%;
+    top: 87px;
+    bottom: 0;
+}
