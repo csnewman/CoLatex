@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -48,6 +48,38 @@ namespace CoLatex.Projects
             };
         }
 
+        [HttpGet("info")]
+        public async Task<GetProjectResponseModel> GetProjectAsync([FromBody] GetProjectModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new GetProjectResponseModel
+                {
+                    Success = false,
+                    Error = GetProjectResponseModel.ErrorReason.Unauthorised
+                };
+            }
+
+            return new GetProjectResponseModel
+            {
+                Success = true,
+                Project = new ProjectResponseModel
+                {
+                    Id = dbModel.Id,
+                    Name = dbModel.Name,
+                    LastEdit = dbModel.LastEdit,
+                    Owner = dbModel.Owner,
+                    Collaborators = dbModel.Collaborators
+                }
+            };
+        }
+
         [HttpPost("create")]
         public async Task<ProjectResponseModel> CreateProject([FromBody] CreateProjectModel model)
         {
@@ -73,6 +105,32 @@ namespace CoLatex.Projects
                 Collaborators = new List<string>(),
                 LastEdit = dbModel.LastEdit,
                 Owner = username
+            };
+        }
+
+        [HttpPost("rename")]
+        public async Task<RenameProjectResponseModel> RenameProject([FromBody] RenameProjectModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new RenameProjectResponseModel
+                {
+                    Success = false,
+                    Error = RenameProjectResponseModel.ErrorReason.Unauthorised
+                };
+            }
+
+            await _projectRepository.UpdateProject(dbModel);
+
+            return new RenameProjectResponseModel
+            {
+                Success = true
             };
         }
 
