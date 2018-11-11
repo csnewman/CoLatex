@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -129,6 +129,32 @@ namespace CoLatex.Projects
             await _projectRepository.UpdateProject(dbModel);
 
             return new RenameProjectResponseModel
+            {
+                Success = true
+            };
+        }
+
+        [HttpPost("delete")]
+        public async Task<DeleteProjectResponseModel> DeleteProject([FromBody] DeleteProjectModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new DeleteProjectResponseModel
+                {
+                    Success = false,
+                    Error = DeleteProjectResponseModel.ErrorReason.Unauthorised
+                };
+            }
+
+            await _projectRepository.DeleteProject(dbModel);
+
+            return new DeleteProjectResponseModel
             {
                 Success = true
             };

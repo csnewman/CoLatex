@@ -41,8 +41,7 @@ namespace CoLatex.Database
 
         public Task DeleteProject(ProjectDbModel model)
         {
-            return _databaseContext.Projects.ReplaceOneAsync(Builders<ProjectDbModel>.Filter.Eq(s => s.Id, model.Id),
-                model);
+            return _databaseContext.Projects.DeleteOneAsync(Builders<ProjectDbModel>.Filter.Eq(s => s.Id, model.Id));
         }
     }
 }
