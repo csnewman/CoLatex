@@ -37,7 +37,9 @@ namespace CoLatex.Projects
 
         public string GetProjectDirectory(string project)
         {
-            return Path.Combine(ProjectHomeDirectory, project);
+            string path = Path.Combine(ProjectHomeDirectory, project);
+            Directory.CreateDirectory(path);
+            return path;
         }
 
         public string GetBuildDirectory(string project)
