@@ -11,6 +11,15 @@
             accessTokenFactory: () => jwtToken
         })
         .build();
+    connection.start().catch(err => console.error(err.toString()));
+    connection.on('Connected', (data) => {
+        connection.invoke("OpenProject", projectId);
+
+        connection.on("FileList", (data) => {
+            console.log(data);
+        });
+    });
+
 
     loadProject();
 
