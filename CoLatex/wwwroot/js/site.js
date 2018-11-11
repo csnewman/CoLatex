@@ -186,6 +186,14 @@
         $('#modal-signup-email').parent().removeClass('has-error');
         $('#modal-signup-email-message').text('');
     });
+
+    $('#btn-signout').click(function (e) {
+        window.localStorage.clear();
+        window.location = '/';
+
+        e.stopPropagation();
+        e.preventDefault();
+    });
 });
 
 function isValidEmailAddress(emailAddress) {
