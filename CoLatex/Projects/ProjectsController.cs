@@ -48,7 +48,7 @@ namespace CoLatex.Projects
             };
         }
 
-        [HttpGet("info")]
+        [HttpPost("info")]
         public async Task<GetProjectResponseModel> GetProjectAsync([FromBody] GetProjectModel model)
         {
             ClaimsPrincipal principal = HttpContext.User;
