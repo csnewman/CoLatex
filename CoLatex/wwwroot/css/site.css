@@ -36,6 +36,22 @@ body {
     color: #a94442;
 }
 
+.dash-header {
+    border-bottom: 1px solid #ccc;
+}
+
+.dash-header h3 {
+    display: inline-block;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.dash-header .btn {
+    float: right;
+    margin-left: 10px;
+    margin-top: 6px;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

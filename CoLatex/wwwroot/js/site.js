@@ -55,7 +55,8 @@
             dataType: "json",
             success: function (data) {
                 if (data.success) {
-                    alert("Yeet");
+                    alert('yeet');
+                    //window.location = '/dashboard';
                 } else {
                     switch (data.error) {
                         case 'internalError':
@@ -133,7 +134,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.success) {
-                    alert("Yeet");
+                    window.location = '/dashboard';
                 } else {
                     $('#modal-login-message').text('Username or password incorrect');
                 }
