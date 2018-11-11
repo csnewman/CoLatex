@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -126,6 +126,7 @@ namespace CoLatex.Projects
                 };
             }
 
+            dbModel.Name = model.Name;
             await _projectRepository.UpdateProject(dbModel);
 
             return new RenameProjectResponseModel
