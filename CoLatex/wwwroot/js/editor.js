@@ -25,6 +25,7 @@
                 $('#file-list li').removeClass('selected');
                 $(this).addClass('selected');
                 $('#editor-message').css('display', 'none');
+                $('#ace-container').css('display', 'block');
             });
         });
     });
