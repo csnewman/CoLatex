@@ -76,6 +76,32 @@ namespace CoLatex.Projects
             };
         }
 
+        [HttpPost("rename")]
+        public async Task<RenameProjectResponseModel> RenameProject([FromBody] RenameProjectModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new RenameProjectResponseModel
+                {
+                    Success = false,
+                    Error = RenameProjectResponseModel.ErrorReason.Unauthorised
+                };
+            }
+
+            await _projectRepository.UpdateProject(dbModel);
+
+            return new RenameProjectResponseModel
+            {
+                Success = true
+            };
+        }
+
         [HttpGet("download-resource/{token}")]
         [AllowAnonymous]
         public async Task<FileResult> DownloadResourceAsync(string token)
