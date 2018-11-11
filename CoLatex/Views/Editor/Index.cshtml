@@ -67,7 +67,9 @@
         </div>
     </div>
     <div id="middle-col">
-        <div id="editor-header" data-toggle="modal" data-target="#modal-project"></div>
+        <div id="editor-header" data-toggle="modal" data-target="#modal-project">
+            Loading
+        </div>
         <span id="select-file-message">
             Please select a file in the left-hand column to begin editing it.
         </span>
@@ -106,22 +108,21 @@
                         <label for="modal-project-collaborator" class="control-label">Collaborators</label>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" name="name" id="modal-project-collaborator" placeholder="John Doe">
+                            <input type="text" class="form-control" name="name" id="modal-project-collaborator" placeholder="Username">
                             <span class="input-group-btn">
-                                <button class="btn btn-success" type="button">Add</button>
-                                <button class="btn btn-danger" type="button">Remove</button>
+                                <button class="btn btn-success" type="button" id="modal-project-collaborators-add-submit">Add</button>
+                                <button class="btn btn-danger" type="button" id="modal-project-collaborators-remove-submit">Remove</button>
                             </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" id="modal-project-collaborators" placeholder="John Doe" size="5" />
+                        <select class="form-control" id="modal-project-collaborators" placeholder="Collaborators" size="5"></select>
                     </div>
                     <span class="control-label has-error error-message" id="modal-project-message"></span>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="modal-signup-submit" class="btn btn-primary">Sign up</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
