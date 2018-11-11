@@ -59,7 +59,9 @@
             },
             error: function (data) {
                 $('#modal-rename-message').text('Today is not your lucky day, pal');
-            }
+                console.log(data);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
         });
     });
 
@@ -91,7 +93,38 @@
             },
             error: function (data) {
                 $('#modal-delete-message').text('Today is not your lucky day, pal');
-            }
+                console.log(data);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
+        });
+    });
+    
+    $('#modal-new-submit').click(function () {
+        $('#modal-new-message').text('');
+
+        $('#modal-new-name').parent().removeClass('has-error');
+        $('#modal-new-name-message').text('');
+
+        if ($('#modal-new-name').val() === '') {
+            $('#modal-new-name').parent().addClass('has-error');
+            $('#modal-new-name-message').text('New name cannot be empty');
+            return;
+        }
+
+        $.ajax({
+            url: '/api/projects/create',
+            type: "POST",
+            data: JSON.stringify($('#form-new').serializeFormJSON()),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                window.location = '/editor?project=' + data.id;
+            },
+            error: function (data) {
+                $('#modal-rename-message').text('Today is not your lucky day, pal');
+                console.log(data);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken); } //set tokenString before send
         });
     });
 

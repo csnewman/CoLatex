@@ -102,7 +102,7 @@
             },
             error: function (data) {
                 $('#modal-signup-message').text('Today is not your lucky day, pal');
-                alert(data);
+                console.log(data);
             }
         });
     });
@@ -145,7 +145,7 @@
             },
             error: function (data) {
                 $('#modal-login-message').text('Today is not your lucky day, pal');
-                alert(data);
+                console.log(data);
             }
         });
     });
