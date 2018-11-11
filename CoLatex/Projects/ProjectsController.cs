@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -252,6 +252,59 @@ namespace CoLatex.Projects
             (await _projectManager.GetBuildInfoAsync(model.ProjectId)).PerformBuild();
 
             return new BuildProjectResponseModel
+            {
+                Success = true
+            };
+        }
+
+
+        [HttpPost("add-collaborator")]
+        public async Task<AddCollaboratorResponseModel> AddCollaborator([FromBody] AddCollaboratorModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new AddCollaboratorResponseModel
+                {
+                    Success = false
+                };
+            }
+
+            dbModel.Collaborators.Add(model.Username);
+            await _projectRepository.UpdateProject(dbModel);
+
+            return new AddCollaboratorResponseModel
+            {
+                Success = true
+            };
+        }
+
+        [HttpPost("remove-collaborator")]
+        public async Task<AddCollaboratorResponseModel> RemoveCollaborator([FromBody] AddCollaboratorModel model)
+        {
+            ClaimsPrincipal principal = HttpContext.User;
+            string username = principal.FindFirstValue("username");
+
+            ProjectDbModel dbModel = await _projectRepository.GetProject(model.ProjectId);
+
+            if (!(string.Equals(dbModel.Owner, username) ||
+                  (dbModel.Collaborators != null && dbModel.Collaborators.Contains(username))))
+            {
+                return new AddCollaboratorResponseModel
+                {
+                    Success = false
+                };
+            }
+
+            dbModel.Collaborators.Remove(model.Username);
+            await _projectRepository.UpdateProject(dbModel);
+
+            return new AddCollaboratorResponseModel
             {
                 Success = true
             };
