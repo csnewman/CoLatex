@@ -46,7 +46,7 @@
                         <input type="text" class="form-control" name="name" id="modal-new-name" placeholder="My awesome project" />
                         <span class="control-label" id="modal-new-name-message"></span>
                     </div>
-                    <span class="control-label has-error error-message" id="modal-login-message"></span>
+                    <span class="control-label has-error error-message" id="modal-new-message"></span>
                 </form>
             </div>
             <div class="modal-footer">
@@ -57,7 +57,55 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div id="modal-rename" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Rename project</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-rename">
+                    <div class="form-group">
+                        <label for="modal-rename-name" class="control-label">New name</label>
+                        <input type="text" class="form-control" name="name" id="modal-rename-name" placeholder="My awesome project" />
+                        <span class="control-label" id="modal-rename-name-message"></span>
+                    </div>
+                    <span class="control-label has-error error-message" id="modal-rename-message"></span>
+                    <input type="hidden" name="projectid" id="modal-rename-id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="modal-rename-submit" type="button" class="btn btn-primary">Rename</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="modal-delete" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Delete project</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-delete">
+                    <input type="hidden" name="projectid" id="modal-delete-id" />
+                </form>
+                Are you sure?
+                <p class="control-label has-error error-message" id="modal-delete-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="modal-delete-submit" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @section Scripts
-{
+    {
     <script src="~/js/dashboard.js"></script>
 }
