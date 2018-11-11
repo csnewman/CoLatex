@@ -62,19 +62,73 @@
     <partial name="_LoginModalsPartial" />
 
     <div id="left-col">
-        <h2>Files</h2>
+        <div id="files-header">
+            Files
+        </div>
     </div>
     <div id="middle-col">
-        <h2>Ace</h2>
+        <div id="editor-header" data-toggle="modal" data-target="#modal-project">
+            Project Name
+        </div>
+        <span id="select-file-message">
+            Please select a file in the left-hand column to begin editing it.
+        </span>
     </div>
     <div id="right-col">
         <div id="pdf-col">
-            <h2>PDF</h2>
+            <div id="pdf-header">
+                PDF
+            </div>
         </div>
         <div id="output-col">
-            <h2>Output</h2>
+            <div id="output-header">
+                Output
+            </div>
         </div>
     </div>
+
+    <div id="modal-project" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Project Information</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-project">
+                    <div class="form-group">
+                        <label for="modal-project-name" class="control-label">Project name</label>
+                        <input type="text" disabled class="form-control" id="modal-project-name" placeholder="Project name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-project-owner" class="control-label">Project owner</label>
+                        <input type="text" disabled class="form-control" id="modal-project-owner" placeholder="John Doe" />
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-project-collaborator" class="control-label">Collaborators</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="name" id="modal-project-collaborator" placeholder="John Doe">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="button">Add</button>
+                                <button class="btn btn-danger" type="button">Remove</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="modal-project-collaborators" placeholder="John Doe" size="5" />
+                    </div>
+                    <span class="control-label has-error error-message" id="modal-project-message"></span>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="modal-signup-submit" class="btn btn-primary">Sign up</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
