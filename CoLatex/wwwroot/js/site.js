@@ -4,8 +4,11 @@
     if (jwtToken == null) {
         $('#nav-login').css('display', 'block');
         $('#nav-signup').css('display', 'block');
+        $('#jumb-nouser').css('display', 'block');
     } else {
+        $('#nav-user-name').text(window.localStorage.getItem('username'));
         $('#nav-user').css('display', 'block');
+        $('#jumb-loggedin').css('display', 'block');
     }
 
     $('#modal-signup-submit').click(function () {

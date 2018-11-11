@@ -56,7 +56,7 @@ body {
     cursor: pointer;
 }
 
-#nav-login, #nav-signup, #nav-user {
+#nav-login, #nav-signup, #nav-user, #jumb-nouser, #jumb-loggedin {
     display: none;
 }
 
