@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewData["Title"] = "Editor | CoLatex";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CoLatex</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/css/editor.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CoLatex</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="nav-signup"><a href="#" data-toggle="modal" data-target="#modal-signup">Sign up</a></li>
+                    <li id="nav-login"><a href="#" data-toggle="modal" data-target="#modal-login">Log in</a></li>
+                    <li id="nav-user" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="nav-user-name"></span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#" id="btn-signout">Sign out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+    <partial name="_LoginModalsPartial" />
+
+    <div id="left-col">
+        <div id="files-header">
+            Files
+        </div>
+    </div>
+    <div id="middle-col">
+        <div id="editor-header" data-toggle="modal" data-target="#modal-project"></div>
+        <span id="select-file-message">
+            Please select a file in the left-hand column to begin editing it.
+        </span>
+    </div>
+    <div id="right-col">
+        <div id="pdf-col">
+            <div id="pdf-header">
+                PDF
+            </div>
+        </div>
+        <div id="output-col">
+            <div id="output-header">
+                Output
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-project" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Project Information</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-project">
+                    <div class="form-group">
+                        <label for="modal-project-name" class="control-label">Project name</label>
+                        <input type="text" disabled class="form-control" id="modal-project-name" placeholder="Project name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-project-owner" class="control-label">Project owner</label>
+                        <input type="text" disabled class="form-control" id="modal-project-owner" placeholder="John Doe" />
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-project-collaborator" class="control-label">Collaborators</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="name" id="modal-project-collaborator" placeholder="John Doe">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="button">Add</button>
+                                <button class="btn btn-danger" type="button">Remove</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="modal-project-collaborators" placeholder="John Doe" size="5" />
+                    </div>
+                    <span class="control-label has-error error-message" id="modal-project-message"></span>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="modal-signup-submit" class="btn btn-primary">Sign up</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/editor.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+</body>
+</html>

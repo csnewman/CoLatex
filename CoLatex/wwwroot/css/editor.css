@@ -1,0 +1,88 @@
+﻿#left-col {
+    background-color: #eee;
+    position: fixed;
+    left: 0;
+    width: 16.66666667%;
+    top: 50px;
+    bottom: 0;
+}
+
+#middle-col {
+    background-color: white;
+    position: fixed;
+    left: 16.66666667%;
+    width: 41.66666667%;
+    top: 50px;
+    bottom: 0;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+#right-col {
+    background-color: white;
+    position: fixed;
+    left: 58.3333334%;
+    width: 41.66666667%;
+    top: 50px;
+    bottom: 0;
+}
+
+#pdf-col {
+    position: fixed;
+    top: 50px;
+    bottom: 250px;
+    width: 41.66666667%;
+}
+
+#output-col {
+    position: fixed;
+    height: 250px;
+    bottom: 0;
+    width: 41.66666667%;
+}
+
+#files-header {
+    background-color: #ddd;
+    border-bottom: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 20px;
+}
+
+#editor-header {
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#editor-header:hover {
+    background-color: #e7e7e7;
+}
+
+#editor-header:active {
+    background-color: #e3e3e3;
+}
+
+#select-file-message {
+    color: #888;
+    font-size: 15px;
+    padding: 10px 16px;
+    display: inline-block;
+}
+
+#pdf-header {
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 20px;
+}
+
+#output-header {
+    background-color: #eee;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 20px;
+}
