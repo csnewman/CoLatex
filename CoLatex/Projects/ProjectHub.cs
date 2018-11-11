@@ -13,9 +13,10 @@ namespace CoLatex.Projects
         private ProjectManager _projectManager;
         private ProjectRepository _projectRepository;
 
-        public ProjectHub(ProjectManager projectManager)
+        public ProjectHub(ProjectManager projectManager, ProjectRepository projectRepository)
         {
             _projectManager = projectManager;
+            _projectRepository = projectRepository;
         }
 
         public override async Task OnConnectedAsync()
