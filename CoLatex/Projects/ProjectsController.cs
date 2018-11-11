@@ -76,7 +76,7 @@ namespace CoLatex.Projects
             };
         }
 
-        [HttpGet("download/{token}")]
+        [HttpGet("download-resource/{token}")]
         [AllowAnonymous]
         public async Task<FileResult> DownloadResourceAsync(string token)
         {
@@ -86,8 +86,8 @@ namespace CoLatex.Projects
 
 
         // Use FormData in ajax to encode upload model, not json
-        [HttpPost("upload")]
-        public async Task<UploadResponseModel> UploadResourceAsync(UploadModel model)
+        [HttpPost("upload-resource")]
+        public async Task<UploadResponseModel> UploadResourceAsync([FromBody] UploadModel model)
         {
             ClaimsPrincipal principal = HttpContext.User;
             string username = principal.FindFirstValue("username");
@@ -114,12 +114,12 @@ namespace CoLatex.Projects
             return new UploadResponseModel
             {
                 Success = true,
-                File = _projectManager.GetFileModel(_projectManager.GetFilePath(model.ProjectId, path))
+                File = _projectManager.GetFileModel(model.Path)
             };
         }
 
         [HttpPost("create-resource")]
-        public async Task<CreateResponseModel> CreateResourceAsync(CreateModel model)
+        public async Task<CreateResponseModel> CreateResourceAsync([FromBody] CreateModel model)
         {
             ClaimsPrincipal principal = HttpContext.User;
             string username = principal.FindFirstValue("username");
@@ -143,7 +143,7 @@ namespace CoLatex.Projects
             return new CreateResponseModel
             {
                 Success = true,
-                File = _projectManager.GetFileModel(_projectManager.GetFilePath(model.ProjectId, path))
+                File = _projectManager.GetFileModel(model.Path)
             };
         }
     }
