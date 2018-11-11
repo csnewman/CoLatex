@@ -6,11 +6,18 @@
     $('#modal-rename').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
 
+        $('#modal-rename-name').val('');
+        $('#modal-rename-message').text('');
+        $('#modal-rename-name').parent().removeClass('has-error');
+        $('#modal-rename-name-message').text('');
+
         $('#modal-rename-id').val(button.data('project'));
     });
 
     $('#modal-delete').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
+
+        $('#modal-delete-message').text('');
 
         $('#modal-delete-id').val(button.data('project'));
     });

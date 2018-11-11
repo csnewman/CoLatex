@@ -108,6 +108,8 @@
     });
 
     $('#modal-login-submit').click(function () {
+        $('#modal-login-message').text('');
+
         $('#modal-login-username').parent().removeClass('has-error');
         $('#modal-login-username-message').text('');
 
@@ -146,6 +148,43 @@
                 alert(data);
             }
         });
+    });
+
+
+    $('#modal-login').on('show.bs.modal', function (event) {
+        $('#modal-login-message').text('');
+
+        $('#modal-login-username').val('');
+        $('#modal-login-username').parent().removeClass('has-error');
+        $('#modal-login-username-message').text('');
+
+        $('#modal-login-password').val('');
+        $('#modal-login-password').parent().removeClass('has-error');
+        $('#modal-login-password-message').text('');
+    });
+
+    $('#modal-signup').on('show.bs.modal', function (event) {
+        $('#modal-signup-message').text('');
+
+        $('#modal-signup-username').val('');
+        $('#modal-signup-username').parent().removeClass('has-error');
+        $('#modal-signup-username-message').text('');
+
+        $('#modal-signup-name').val('');
+        $('#modal-signup-name').parent().removeClass('has-error');
+        $('#modal-signup-name-message').text('');
+
+        $('#modal-signup-password').val('');
+        $('#modal-signup-password').parent().removeClass('has-error');
+        $('#modal-signup-password-message').text('');
+
+        $('#modal-signup-password-confirm').val('');
+        $('#modal-signup-password-confirm').parent().removeClass('has-error');
+        $('#modal-signup-password-confirm-message').text('');
+
+        $('#modal-signup-email').val('');
+        $('#modal-signup-email').parent().removeClass('has-error');
+        $('#modal-signup-email-message').text('');
     });
 });
 
