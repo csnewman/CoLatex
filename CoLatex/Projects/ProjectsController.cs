@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -165,8 +166,8 @@ namespace CoLatex.Projects
         [AllowAnonymous]
         public async Task<FileResult> DownloadResourceAsync(string token)
         {
-            return new PhysicalFileResult(Path.GetFullPath(_projectManager.GetResourcePath(token)),
-                "application/octet-stream");
+            string path = Path.GetFullPath(_projectManager.GetResourcePath(token));
+            return new PhysicalFileResult(path, path.EndsWith(".pdf") ? "application/pdf" : "application/octet-stream");
         }
 
 
@@ -189,10 +190,17 @@ namespace CoLatex.Projects
             }
 
             string path = Path.GetFullPath(_projectManager.GetFilePath(model.ProjectId, model.Path));
-            using (FileStream fileStream = new FileStream(path, FileMode.Create))
-            {
-                await model.File.CopyToAsync(fileStream);
-            }
+
+//            byte[] decodedBytes = Convert.FromBase64String(Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(model.File)));
+//            string decodedTxt = System.Text.Encoding.UTF8.GetString(decodedBytes);
+
+            var logWriter = new System.IO.StreamWriter(path);
+            logWriter.WriteLine(model.File);
+            logWriter.Dispose();
+//            using (FileStream fileStream = new FileStream(path, FileMode.Create))
+//            {
+//                await model.File.CopyToAsync(fileStream);
+//            }
 
             await _projectManager.OnFileAdded(model.ProjectId, model.Path);
 

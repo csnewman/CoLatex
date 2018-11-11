@@ -6,6 +6,6 @@ namespace CoLatex.Projects
     {
         public string ProjectId { get; set; }
         public string Path { get; set; }
-        public IFormFile File { get; set; }
+        public string File { get; set; }
     }
 }
