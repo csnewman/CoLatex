@@ -3,8 +3,6 @@
 </p>
 
 # CoLatex
-(GUH18 Collaboration Project)
-
 Latex allows you to compile tex source files into stylish documents, precisely designed for consumption from the human eye. Colatex streamlines the process, allowing you and your friends to edit latex documents online.
 
 ## Technologies
@@ -14,3 +12,6 @@ Latex allows you to compile tex source files into stylish documents, precisely d
 - JWT (Json Web Tokens)
 - Restful API
 - SignalR (Realtime communications)
+
+## GUH18 Collaboration Project
+Built as part of GreatUniHack 2018, an annual 24-hour student-oriented hackathon organised by the University of Manchester tech society, HackSoc in collaboration with CSSoc. See [http://greatunihack.com/](http://greatunihack.com/)
